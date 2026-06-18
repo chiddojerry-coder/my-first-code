@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Fun Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #001a4d 0%, #0d47a1 50%, #1a237e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .fact-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fact-card h2 {
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .fact-card p {
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .button-secondary {
+            background: linear-gradient(135deg, #00bcd4, #00d4ff);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Solar System Facts 🚀</h1>
+            <p>Discover amazing facts about our cosmic neighborhood!</p>
+        </div>
+
+        <div class="fact-card">
+            <h2 id="factTitle"><span class="emoji">🪐</span>Loading...</h2>
+            <p id="factContent">Click the button below to load a fun fact!</p>
+        </div>
+
+        <div class="button-group">
+            <button onclick="displayRandomFact()">🎲 Get New Fact</button>
+            <button class="button-secondary" onclick="displayAllFacts()">📚 Show All Facts</button>
+        </div>
+
+        <div id="allFactsContainer" style="display: none; margin-top: 20px;">
+            <div id="allFacts"></div>
+        </div>
+    </div>
+
+    <script>
+        const facts = [
+            {
+                emoji: "☀️",
+                title: "The Sun is Huge!",
+                content: "Our Sun is so massive that it accounts for 99.86% of all the mass in the entire solar system. More than 1.3 million Earths could fit inside the Sun!"
+            },
+            {
+                emoji: "🪨",
+                title: "Mercury is Speedy",
+                content: "Mercury is the fastest planet in our solar system, orbiting the Sun at an average speed of 47 km/s (106,000 mph). However, it's not the hottest planet – Venus is!"
+            },
+            {
+                emoji: "🌡️",
+                title: "Venus is a Scorcher",
+                content: "Venus has a surface temperature of about 465°C (869°F), hot enough to melt lead! This makes it hotter than Mercury, despite being farther from the Sun."
+            },
+            {
+                emoji: "🌎",
+                title: "Earth's Magnetic Shield",
+                content: "Earth's magnetic field protects us from deadly solar radiation. Without it, the solar wind would strip away our atmosphere!"
+            },
+            {
+                emoji: "🔴",
+                title: "Mars is Red",
+                content: "Mars appears red because its surface is covered in iron oxide (rust). It's also home to the largest volcano in the solar system: Olympus Mons!"
+            },
+            {
+                emoji: "🪐",
+                title: "Jupiter's Great Red Spot",
+                content: "Jupiter's Great Red Spot is a storm that has been raging for at least 350 years. It's so large that 3 Earths could fit inside it!"
+            },
+            {
+                emoji: "💫",
+                title: "Saturn's Rings",
+                content: "Saturn's beautiful rings are made of billions of particles of ice and rock, ranging in size from tiny grains to house-sized chunks."
+            },
+            {
+                emoji: "⚪",
+                title: "Uranus Spins Sideways",
+                content: "Uranus rotates on its side! It's tilted at 98 degrees, meaning it essentially rolls around the Sun on its side due to a massive collision early in solar system history."
+            },
+            {
+                emoji: "🌊",
+                title: "Neptune's Winds",
+                content: "Neptune has the fastest winds in the solar system, reaching speeds of up to 2,100 km/h (1,300 mph)! That's faster than the speed of sound."
+            },
+            {
+                emoji: "❄️",
+                title: "Pluto's Heart",
+                content: "Pluto has a giant heart-shaped glacier called Tombaugh Regio, which is larger than the state of Texas. It was discovered by NASA's New Horizons spacecraft in 2015."
+            },
+            {
+                emoji: "☄️",
+                title: "Asteroid Belt Facts",
+                content: "The asteroid belt between Mars and Jupiter contains millions of rocky objects. If you combined all of them, they'd be smaller than our Moon!"
+            },
+            {
+                emoji: "🌕",
+                title: "Earth's Moon",
+                content: "The Moon is slowly drifting away from Earth at a rate of about 3.8 cm (1.5 inches) per year. Eventually, it will escape Earth's orbit in billions of years."
+            },
+            {
+                emoji: "💥",
+                title: "Solar Flares",
+                content: "The Sun regularly produces massive explosions called solar flares that release energy equivalent to millions of nuclear bombs!"
+            },
+            {
+                emoji: "🌌",
+                title: "The Milky Way",
+                content: "Our entire solar system orbits around the center of the Milky Way galaxy once every 225-250 million years. This period is sometimes called a 'cosmic year'."
+            },
+            {
+                emoji: "🛸",
+                title: "Voyager 1",
+                content: "Voyager 1, launched in 1977, is the farthest human-made object from Earth and is currently exploring interstellar space beyond our solar system!"
+            }
+        ];
+
+        function getRandomFact() {
+            return facts[Math.floor(Math.random() * facts.length)];
+        }
+
+        function displayRandomFact() {
+            document.getElementById('allFactsContainer').style.display = 'none';
+            const fact = getRandomFact();
+            document.getElementById('factTitle').innerHTML = `<span class="emoji">${fact.emoji}</span>${fact.title}`;
+            document.getElementById('factContent').textContent = fact.content;
+        }
+
+        function displayAllFacts() {
+            const container = document.getElementById('allFacts');
+            container.innerHTML = '';
+            
+            facts.forEach((fact, index) => {
+                const factDiv = document.createElement('div');
+                factDiv.className = 'fact-card';
+                factDiv.innerHTML = `
+                    <h2><span class="emoji">${fact.emoji}</span>${fact.title}</h2>
+                    <p>${fact.content}</p>
+                `;
+                container.appendChild(factDiv);
+            });
+            
+            document.getElementById('allFactsContainer').style.display = 'block';
+        }
+
+        // Load a random fact when the page loads
+        displayRandomFact();
+    </script>
+</body>
+  </html>
